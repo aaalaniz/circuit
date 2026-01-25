@@ -214,6 +214,7 @@ include(
   ":circuit-codegen",
   ":circuit-codegen-annotations",
   ":circuit-foundation",
+  ":circuit-mosaic",
   ":circuit-overlay",
   ":circuit-retained",
   ":circuit-runtime",
