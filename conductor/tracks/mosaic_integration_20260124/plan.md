@@ -1,7 +1,7 @@
 # Implementation Plan - Mosaic Integration
 
 ## Phase 1: MosaicNavDecoration Package
-- [ ] Task: Create new module `circuit-mosaic`.
+- [x] Task: Create new module `circuit-mosaic`. be1bf5e
     - [ ] Create directory structure `circuit-mosaic/src/commonMain/kotlin/...`.
     - [ ] Configure `build.gradle.kts` for the new module, including Mosaic dependencies.
 - [ ] Task: Implement `MosaicNavDecoration`.
