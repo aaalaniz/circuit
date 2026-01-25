@@ -4,7 +4,7 @@
 - [x] Task: Create new module `circuit-mosaic`. be1bf5e
     - [ ] Create directory structure `circuit-mosaic/src/commonMain/kotlin/...`.
     - [ ] Configure `build.gradle.kts` for the new module, including Mosaic dependencies.
-- [ ] Task: Implement `MosaicNavDecoration`.
+- [x] Task: Implement `MosaicNavDecoration`. c2841f2
     - [ ] Port `MosaicNavDecoration` logic from the reference project (`terminal-velocity`) to `circuit-mosaic`.
     - [ ] Write unit tests for `MosaicNavDecoration`.
 - [ ] Task: Conductor - User Manual Verification 'MosaicNavDecoration Package' (Protocol in workflow.md)
