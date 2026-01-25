@@ -4,7 +4,6 @@ import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 
 plugins {
   alias(libs.plugins.kotlin.multiplatform)
-  alias(libs.plugins.kotlin.plugin.parcelize)
   alias(libs.plugins.compose)
   alias(libs.plugins.mavenPublish)
   alias(libs.plugins.baselineprofile)
@@ -32,8 +31,4 @@ kotlin {
       }
     }
   }
-}
-
-android {
-  namespace = "com.slack.circuit.mosaic"
 }

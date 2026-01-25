@@ -7,7 +7,7 @@
 - [x] Task: Implement `MosaicNavDecoration`. c2841f2
     - [ ] Port `MosaicNavDecoration` logic from the reference project (`terminal-velocity`) to `circuit-mosaic`.
     - [ ] Write unit tests for `MosaicNavDecoration`.
-- [ ] Task: Conductor - User Manual Verification 'MosaicNavDecoration Package' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'MosaicNavDecoration Package' (Protocol in workflow.md) be1bf5e
 
 ## Phase 2: Codegen Update
 - [ ] Task: Analyze current codegen logic.
