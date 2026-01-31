@@ -85,7 +85,7 @@ jobs:
 
       # Defer these until after the above run, no need to waste resources running them if there are other failures first
       - name: Run instrumentation tests via emulator.wtf (main repo only)
-        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+        if: github.repository == 'slackhq/circuit' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
         id: gradle-instrumentation
         env:
           EW_API_TOKEN: ${{ secrets.EMULATOR_WTF_TOKEN }}
