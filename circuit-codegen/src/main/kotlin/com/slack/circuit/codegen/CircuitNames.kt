@@ -21,6 +21,7 @@ internal object CircuitNames {
   const val CIRCUIT_RUNTIME_SCREEN_PACKAGE = "$CIRCUIT_RUNTIME_BASE_PACKAGE.screen"
   const val CIRCUIT_RUNTIME_PRESENTER_PACKAGE = "$CIRCUIT_RUNTIME_BASE_PACKAGE.presenter"
   val MODIFIER = ClassName("androidx.compose.ui", "Modifier")
+  val MOSAIC_MODIFIER = ClassName("com.jakewharton.mosaic.modifier", "Modifier")
   val CIRCUIT_INJECT_ANNOTATION =
     ClassName("com.slack.circuit.codegen.annotations", "CircuitInject")
   val CIRCUIT_PRESENTER = ClassName(CIRCUIT_RUNTIME_PRESENTER_PACKAGE, "Presenter")

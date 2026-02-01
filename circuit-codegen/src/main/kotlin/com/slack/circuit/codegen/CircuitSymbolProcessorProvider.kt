@@ -348,12 +348,17 @@ private class CircuitSymbolProcessor(
               // Modifier param is required
               val modifierParam =
                 fd.parameters.singleOrNull { parameter ->
-                  symbols.modifier.isAssignableFrom(parameter.type.resolve())
+                  val type = parameter.type.resolve()
+                  symbols.modifier.isAssignableFrom(type) ||
+                    symbols.mosaicModifier?.isAssignableFrom(type) == true
                 }
                   ?: run {
                     logger.error("UI composable functions must have a Modifier parameter!", fd)
                     return null
                   }
+
+              val isMosaic =
+                symbols.mosaicModifier?.isAssignableFrom(modifierParam.type.resolve()) == true
 
               /*
               Diagram of what goes into generating a function!
@@ -385,11 +390,20 @@ private class CircuitSymbolProcessor(
                 if (stateParam == null) CircuitNames.CIRCUIT_UI_STATE
                 else stateParam.type.resolve().toTypeName()
               val stateArg = if (stateParam == null) "_" else "state"
+              val modifierArg = if (isMosaic) "_" else "modifier"
               val stateParamBlock =
                 if (stateParam == null) CodeBlock.of("")
                 else CodeBlock.of("%L·=·state,·", stateParam.name!!.getShortName())
               val modifierParamBlock =
-                CodeBlock.of("%L·=·modifier", modifierParam.name!!.getShortName())
+                if (isMosaic) {
+                  CodeBlock.of(
+                    "%L·=·%T",
+                    modifierParam.name!!.getShortName(),
+                    CircuitNames.MOSAIC_MODIFIER,
+                  )
+                } else {
+                  CodeBlock.of("%L·=·modifier", modifierParam.name!!.getShortName())
+                }
               val assistedParamsBlock =
                 if (assistedParams.isEmpty()) {
                   CodeBlock.of("")
@@ -397,7 +411,7 @@ private class CircuitSymbolProcessor(
                   CodeBlock.of(",·%L", assistedParams)
                 }
               CodeBlock.of(
-                "%M<%T>·{·%L,·modifier·->·%M(%L%L%L)·}",
+                "%M<%T>·{·%L,·$modifierArg·->·%M(%L%L%L)·}",
                 MemberName(CircuitNames.CIRCUIT_RUNTIME_UI_PACKAGE, "ui"),
                 stateType,
                 stateArg,

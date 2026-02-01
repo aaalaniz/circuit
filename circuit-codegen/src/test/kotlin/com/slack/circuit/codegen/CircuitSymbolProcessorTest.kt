@@ -159,6 +159,18 @@ class CircuitSymbolProcessorTest {
       """
         .trimIndent(),
     )
+  private val mosaicSymbols =
+    kotlin(
+      "MosaicModifier.kt",
+      """
+      package com.jakewharton.mosaic.modifier
+
+      interface Modifier {
+        companion object : Modifier
+      }
+      """
+        .trimIndent(),
+    )
   private val screens =
     kotlin(
       "Screens.kt",
@@ -216,6 +228,53 @@ class CircuitSymbolProcessorTest {
         public class HomeFactory @Inject constructor() : Ui.Factory {
           override fun create(screen: Screen, context: CircuitContext): Ui<*>? = when (screen) {
             HomeScreen -> ui<CircuitUiState> { _, modifier -> Home(modifier = modifier) }
+            else -> null
+          }
+        }
+        """
+          .trimIndent(),
+    )
+  }
+
+  @Test
+  fun simpleUiFunction_withMosaicModifier() {
+    assertGeneratedFile(
+      sourceFile =
+        kotlin(
+          "TestUi.kt",
+          """
+          package test
+
+          import com.slack.circuit.codegen.annotations.CircuitInject
+          import androidx.compose.runtime.Composable
+          import com.jakewharton.mosaic.modifier.Modifier
+
+          @CircuitInject(HomeScreen::class, AppScope::class)
+          @Composable
+          fun Home(modifier: Modifier = Modifier) {
+
+          }
+          """
+            .trimIndent(),
+        ),
+      generatedFilePath = "test/HomeFactory.kt",
+      expectedContent =
+        """
+        package test
+
+        import com.jakewharton.mosaic.modifier.Modifier
+        import com.slack.circuit.runtime.CircuitContext
+        import com.slack.circuit.runtime.CircuitUiState
+        import com.slack.circuit.runtime.screen.Screen
+        import com.slack.circuit.runtime.ui.Ui
+        import com.slack.circuit.runtime.ui.ui
+        import com.squareup.anvil.annotations.ContributesMultibinding
+        import jakarta.inject.Inject
+
+        @ContributesMultibinding(AppScope::class)
+        public class HomeFactory @Inject constructor() : Ui.Factory {
+          override fun create(screen: Screen, context: CircuitContext): Ui<*>? = when (screen) {
+            HomeScreen -> ui<CircuitUiState> { _, _ -> Home(modifier = Modifier) }
             else -> null
           }
         }
@@ -2138,6 +2197,7 @@ class CircuitSymbolProcessorTest {
         sourceFiles.toList() +
           screens +
           circuitSymbols +
+          mosaicSymbols +
           when (codegenMode) {
             CodegenMode.UNKNOWN -> error("Not possible in tests")
             CodegenMode.ANVIL -> listOf(appScope, anvilAnnotations)
